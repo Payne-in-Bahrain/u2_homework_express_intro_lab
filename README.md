@@ -41,19 +41,19 @@ Open the project's folder in VS code:
 code .
 ```
 
-Use npm to install Express:
+Open an integrated terminal in VS Code and use npm to install Express:
 
 ```
 npm i express
 ```
 
-Cratea  server.js module:
+Crate a  server.js module:
 
 ```
 touch server.js
 ```
 
-Within the server.js, let's add somet things.
+Within the server.js, let's add some things.
 
 First, let's import the functionality of our express app by requiring the epxress module:
 
@@ -71,7 +71,7 @@ Let's define a get request that returns a message to the user when they browse t
 
 ```
 app.get('/', (req, res) => {
-  res.send('<h1>Welcome to Jasmis!</h1>');
+  res.send('Welcome to Jasmis!');
 });
 ```
 What's written above is arrow syntax.  It's the same as writing an anonymous callback function with the function keyword, as in the lesson earlier, so don't let it confuse you.
@@ -119,7 +119,7 @@ We're going to use EJS, just as we did in the lesson.
 We'll create the views directory and within that we'll create a file called home.ejs.
 
 ```
-mkdir view
+mkdir views
 touch views/home.ejs
 ```
 
@@ -155,7 +155,7 @@ Add a welcome message within the body:
 </body>
 ```
 
-The next step is up to you.  Use the readme from the earlier lesson if you have to.  your job is to update the app.get route to render the home.jsx.  Recall that we can use the render method to help us out here.
+This next part is going to be all you!  Use the readme from the intro to express lesson if you have to.  Your job is to update the app.get route to render the home.jsx template.  Recall that we can use the render method to help us out here.
 
 ```
 app.get('/', (req, res) => {
@@ -163,7 +163,7 @@ app.get('/', (req, res) => {
 });
 ```
 
-Good!  Next step is to configure our app to use ejs as the view engine.  We also need to tell our app where to look to render ejs templates, or views, as they are also called.  Add the following to your server.js beneath where we create the instance of our express app:
+You'll notice there's an error when we navigate to localhost:3000.  That's okay!  It's a very descriptive error that says that no default view engine was specified.  Let's configure our app to use ejs as the view engine.  We also need to tell our app where to look to render ejs templates, or views, as they are also called.  Add the following to your server.js beneath where we create the instance of our express app:
 
 ```
 const app = express();
@@ -180,13 +180,16 @@ const path = require('path');
 ```
 
 Lastly, let's install ejs as a dependency for our app:
+
 ```
 npm i ejs 
 ```
 
 Awesome!  If everything is set up correctly you should still see the "Welcome to Jasmi's!" message when navigating to localhost:3000.
 
-Now for the fun bit.  We're going to create a data folder and within that we're going to create a jasmi-menu file/module that exports the data for our app.
+Now for the fun bit.  
+
+We're going to create a data folder and within that we're going to create a jasmi-menu.js file/module that exports the data for our app.
 
 Run the following two commands in your integrated terminal:
 
@@ -216,33 +219,31 @@ const getAll = () => {
 }
 
 //Include the function in the modules exports object
-module.exports = {
-  getAll: getAll
-}
+module.exports = { getAll }
 ```
 
-Alright, now that that's done, let's import the data within our server.js:
+Alright, now that that's done, let's import the data within our server.js so that we can access it in our routes:
 
 ```
 const path = require('path');
 
 // require the To Do "database"
-const database = require('./data/todo-db');
+const database = require('./data/jasmi-menu');
 ```
 
-The next part is up to you. 
+Okay, now the real work begins.  Show us what you've got!  
 
 1.  Create a new GET route for the endpoint '/menuItems' in your server.js.
 
-2.  Within the callback function for this route, render an index template.  You'll also have to create this.  Remember, it will be nested in a folder called todos within the views folder.  The file structure is views => todos => index.ejs
+2.  Within the callback function for this route, render an index template.  You'll also have to create the template in a later step.  Remember, it will be nested in a folder called todos within the views folder.  The file structure is views => menuItems => index.ejs
 
-3.  Within the locals object, the second argument passed to res.render, include a key value pair where the name is menuItems and the value is the result of calling the getAll method from the database module being imported at the top of server.js.  Remember you need to use dot notation to access this method and that the method must be invoked using parens `()`.  
+3.  Within the locals object (the second argument passed to res.render) include a key value pair where the name is menuItems and the value is the result of calling the getAll method from the database module being imported at the top of server.js.  Remember you need to use dot notation to access this method.  The method must also be invoked using parens `()`.  
 
 4.  Now that the route is defined and a function is written to handle the logic for this route, the next step is to create a menuItems folder in the views folder/directory.  After the folder is created, create a file called index.ejs inside of it.
 
-5.  Finally, open up the index.ejs view template and iterate over the menuItems that we passed to the template as part of the locals object. You may need to refer back to the lesson readme for this part, a the syntax can be quite challenging to remember at first.  Basically you'll want to use the forEach method to iterate over all of the menuItems and display them within `<li>` tags.  Review the difference between the `<% %>` and `<%= %>` tags.
+5.  Finally, open up the index.ejs view template and create some HTML boilerplate.  In the boyd, you'll need to iterate over the menuItems that we passed to the template as part of the locals object. You may need to refer back to the lesson readme for this part, as the syntax can be quite challenging to remember at first.  Basically you'll want to use the forEach method to iterate over all of the menuItems and for each item display the name within an `<h1>` tag and the price within a `<p>` tag.  Make sure to review the difference between the `<% %>` and `<%= %>` tags.  When you open the browser and navigate to `localhost:3000/menuItems`, you should a list of menu items and their prices. 
 
-Alright, that was a lot!  
+Alright, that was a lot and you're probably hungry!  
 
 Remember, this takes practice and gets much easier over time.  
 
